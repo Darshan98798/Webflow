@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MonroeGirl Studio | Luxury Concept Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#F9F6F0',
+                        ivory: '#FFFFFA',
+                        burgundy: '#4A1C1D',
+                        blush: '#D4B4B4',
+                        charcoal: '#222222',
+                        'dusty-rose': '#A67B7B'
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { 
+            background-color: #F9F6F0; 
+            color: #222222; 
+            overflow-x: hidden; 
+        }
+        
+        /* Smooth Scroll & Hide Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #F9F6F0; }
+        ::-webkit-scrollbar-thumb { background: #D4B4B4; border-radius: 4px; }
+        
+        /* Hero Animations */
+        .hero-img {
+            animation: slowPan 25s ease-out forwards;
+        }
+        @keyframes slowPan { 
+            0% { transform: scale(1.05) translate(0, 0); } 
+            100% { transform: scale(1) translate(0, 2%); } 
+        }
+
+        /* Scroll Reveals */
+        .reveal-element { 
+            opacity: 0; 
+            transform: translateY(50px); 
+            transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1); 
+            will-change: opacity, transform;
+        }
+        .reveal-element.visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+        
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+
+        /* Image Reveal Masking */
+        .image-reveal { 
+            overflow: hidden; 
+            position: relative; 
+        }
+        .image-reveal img { 
+            transform: scale(1.15); 
+            transition: transform 1.8s cubic-bezier(0.2, 0.8, 0.2, 1); 
+            will-change: transform;
+        }
+        .image-reveal.visible img { 
+            transform: scale(1); 
+        }
+        .image-reveal::after { 
+            content: ''; 
+            position: absolute; 
+            inset: 0; 
+            background: #F9F6F0; 
+            transform-origin: bottom; 
+            transition: transform 1.4s cubic-bezier(0.8, 0, 0.2, 1); 
+        }
+        .image-reveal.visible::after { 
+            transform: scaleY(0); 
+        }
+        .bg-burgundy-reveal::after {
+            background: #4A1C1D;
+        }
+
+        /* Prefers Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            .hero-img { animation: none; transform: scale(1); }
+            .reveal-element { opacity: 1; transform: translateY(0); transition: none; }
+            .image-reveal img { transform: scale(1); transition: none; }
+            .image-reveal::after { display: none; }
+        }
+
+        .glass-nav {
+            background: rgba(249, 246, 240, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+    </style>
+</head>
+<body class="font-sans selection:bg-dusty-rose selection:text-white">
+
+    <!-- DISCLAIMER BANNER -->
+    <div class="fixed top-0 left-0 w-full bg-charcoal text-white text-center py-2 px-4 text-[10px] sm:text-xs font-semibold tracking-[0.25em] uppercase z-[60]">
+        Concept Demo — Not the Official Website
+    </div>
+
+    <!-- FLOATING NAV -->
+    <header class="fixed w-full top-10 md:top-12 z-[55] px-4 sm:px-6 lg:px-12 transition-all duration-300">
+        <div class="max-w-[1400px] mx-auto bg-[#F9F6F0]/85 backdrop-blur-md rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#222222]/10 px-4 py-2.5 md:px-6 md:py-3 flex justify-between items-center text-[#222222] relative z-50">
+            
+            <div class="text-base sm:text-lg md:text-2xl font-semibold font-serif tracking-wide whitespace-nowrap overflow-hidden text-ellipsis">
+                MonroeGirl Studio
+            </div>
+
+            <nav class="hidden md:flex gap-8 text-sm font-medium tracking-wide items-center">
+                <a href="#services" class="hover:text-[#4A1C1D] transition-colors">Servicios</a>
+                <a href="#gallery" class="hover:text-[#4A1C1D] transition-colors">Galería</a>
+                <a href="#rules" class="hover:text-[#4A1C1D] transition-colors">Políticas</a>
+                <a href="#contact" class="hover:text-[#4A1C1D] transition-colors">Contacto</a>
+            </nav>
+
+            <a href="https://wa.me/50686824929" target="_blank" class="hidden md:flex bg-[#222222] hover:bg-[#4A1C1D] text-[#F9F6F0] px-6 py-2.5 rounded-full text-xs uppercase tracking-widest font-semibold transition-all shadow-md items-center gap-2">
+                WhatsApp
+            </a>
+
+            <div class="flex md:hidden items-center">
+                <button id="mobile-menu-btn" class="p-2 -mr-1 text-[#222222] focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path id="menu-icon-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+        </div>
+
+    </header>
+
+    <!-- MOBILE MENU OVERLAY (Standalone for perfect layout) -->
+    <div id="mobile-menu" class="fixed inset-0 z-[100] h-[100dvh] w-full bg-[#F9F6F0] hidden flex-col opacity-0 transition-opacity duration-300">
+        <style>
+            .mobile-nav-item {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            }
+            #mobile-menu.menu-open .mobile-nav-item {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .delay-m-1 { transition-delay: 100ms; }
+            .delay-m-2 { transition-delay: 150ms; }
+            .delay-m-3 { transition-delay: 200ms; }
+            .delay-m-4 { transition-delay: 250ms; }
+            .delay-m-5 { transition-delay: 300ms; }
+        </style>
+        
+        <div class="px-6 py-6 md:px-8 md:py-8 flex justify-between items-center text-[#222222]">
+            <div class="text-xl font-semibold font-serif tracking-wide">
+                MonroeGirl Studio
+            </div>
+            <button id="close-menu-btn" class="p-2 -mr-2 text-[#222222] focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <div class="flex-1 flex flex-col items-center justify-center gap-10 px-6 pb-12">
+            <nav class="flex flex-col items-center gap-6 text-[#222222] font-serif" style="font-size: clamp(32px, 10vw, 52px); line-height: 1.1;">
+                <a href="#services" class="mobile-link mobile-nav-item delay-m-1 hover:text-[#4A1C1D]">Servicios</a>
+                <a href="#gallery" class="mobile-link mobile-nav-item delay-m-2 hover:text-[#4A1C1D]">Galería</a>
+                <a href="#rules" class="mobile-link mobile-nav-item delay-m-3 hover:text-[#4A1C1D]">Políticas</a>
+                <a href="#contact" class="mobile-link mobile-nav-item delay-m-4 hover:text-[#4A1C1D]">Contacto</a>
+            </nav>
+            <a href="https://wa.me/50686824929" target="_blank" rel="noopener noreferrer" class="mobile-link mobile-nav-item delay-m-5 bg-[#222222] text-[#F9F6F0] px-10 py-4 rounded-full text-sm uppercase tracking-widest font-semibold mt-4 shadow-lg hover:bg-[#4A1C1D]">
+                WhatsApp
+            </a>
+        </div>
+
+        <div class="pb-10 text-center">
+            <p class="text-[10px] uppercase tracking-[0.2em] text-[#222222]/50 font-semibold mobile-nav-item delay-m-6">Santa Ana, Costa Rica</p>
+        </div>
+    </div>
+    
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const openBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-menu-btn');
+
+        function openMobileMenu() {
+            mobileMenu.classList.remove('hidden');
+            setTimeout(() => {
+                mobileMenu.classList.remove('opacity-0');
+                mobileMenu.classList.add('menu-open');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('menu-open');
+            mobileMenu.classList.add('opacity-0');
+            setTimeout(() => {
+                mobileMenu.classList.add('hidden');
+            }, 300);
+            document.body.style.overflow = '';
+        }
+
+        openBtn.addEventListener('click', openMobileMenu);
+        closeBtn.addEventListener('click', closeMobileMenu);
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+    </script>
+
+    <!-- FLOATING WHATSAPP CTA (Mobile mostly, but visible everywhere) -->
+    <a href="https://wa.me/50686824929" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp" class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 flex items-center justify-center">
+        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 1.76.452 3.415 1.233 4.856L2 22l5.353-1.182A9.952 9.952 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm.006 17.502c-1.458 0-2.88-.39-4.13-1.132l-.296-.176-3.076.678.82-2.934-.193-.306c-.82-1.306-1.252-2.825-1.252-4.407 0-4.52 3.682-8.2 8.21-8.2s8.21 3.68 8.21 8.2-3.682 8.2-8.21 8.2zm4.512-5.992c-.247-.124-1.464-.723-1.692-.806-.228-.083-.394-.124-.56.124-.166.248-.64 .806-.785.97-.145.165-.29.186-.538.062-.247-.124-1.045-.385-1.99-1.23-.735-.657-1.23-1.47-1.375-1.718-.145-.248-.016-.382.108-.505.112-.112.247-.289.37-.434.124-.145.166-.248.248-.413.083-.165.041-.31-.02-.434-.062-.124-.56-1.35-.767-1.847-.201-.482-.405-.417-.56-.425-.145-.008-.31-.008-.475-.008-.166 0-.435.062-.663.31-.228.248-.87 .85-.87 2.074 0 1.223.891 2.405 1.015 2.57.124.165 1.753 2.674 4.244 3.75.592.256 1.054.41 1.413.524.595.188 1.137.161 1.564.098.477-.07 1.464-.599 1.671-1.177.207-.578.207-1.074.145-1.177-.062-.103-.228-.165-.475-.289z" clip-rule="evenodd" /></svg>
+    </a>
+
+    <!-- HERO SECTION -->
+    <section class="relative h-[100vh] min-h-[600px] flex items-end pb-24 px-6 md:px-12 overflow-hidden">
+        <div class="absolute inset-0 z-0 bg-charcoal">
+            <!-- Cinematic Illustrative Image -->
+            <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=2000&auto=format&fit=crop" class="w-full h-full object-cover hero-img opacity-80" alt="Nail Art Concept" />
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent"></div>
+        </div>
+        
+        <div class="relative z-10 w-full max-w-[1400px] mx-auto text-cream">
+            <p class="reveal-element text-sm md:text-base uppercase tracking-[0.3em] font-medium text-blush mb-4">
+                Santa Ana, Costa Rica
+            </p>
+            <h1 class="font-serif leading-[0.9] mb-6">
+                <span class="block text-[12vw] md:text-[8vw] reveal-element delay-100">MONROEGIRL</span>
+                <span class="block text-[12vw] md:text-[8vw] italic font-light text-blush reveal-element delay-200">STUDIO</span>
+            </h1>
+            <p class="reveal-element delay-300 text-lg md:text-xl font-light max-w-lg mt-8 text-ivory/80">
+                Nail Art / Nail Studio. <br>Atención con cita previa. Contacta al estudio directamente por WhatsApp.
+            </p>
+        </div>
+    </section>
+
+    <!-- EDITORIAL SECTION: UÑAS -->
+    <section id="services" class="scroll-mt-32 md:scroll-mt-40 py-24 md:py-40 px-6 md:px-12 max-w-[1400px] mx-auto flex flex-col md:flex-row items-center gap-16 md:gap-24">
+        <div class="w-full md:w-5/12 order-2 md:order-1">
+            <h2 class="font-serif text-5xl md:text-7xl text-charcoal mb-8 reveal-element">Uñas</h2>
+            <p class="text-charcoal/60 font-light text-lg md:text-xl leading-relaxed mb-10 reveal-element delay-100">
+                Servicios especializados en el cuidado y estética de tus manos. 
+                <br><br>
+                <span class="italic text-sm text-dusty-rose">Nota de concepto: Los detalles de los servicios y precios se añadirán aquí tras la confirmación del estudio.</span>
+            </p>
+            <div class="reveal-element delay-200">
+                <a href="https://wa.me/50686824929" target="_blank" class="inline-block border-b border-charcoal pb-1 text-sm uppercase tracking-widest hover:text-burgundy hover:border-burgundy transition-colors">
+                    Consultar por WhatsApp
+                </a>
+            </div>
+        </div>
+        <div class="w-full md:w-7/12 order-1 md:order-2">
+            <div class="image-reveal w-full aspect-[4/5] md:aspect-[3/4]">
+                <img src="https://images.unsplash.com/photo-1772322586754-34c9e6f5be6f?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Nail Services Concept" loading="lazy" />
+            </div>
+        </div>
+    </section>
+
+    <!-- EDITORIAL SECTION: NAIL ART -->
+    <section class="py-24 md:py-32 px-6 md:px-12 max-w-[1400px] mx-auto flex flex-col md:flex-row items-center gap-16 md:gap-24">
+        <div class="w-full md:w-7/12">
+            <div class="image-reveal w-full aspect-[4/5] md:aspect-[16/10]">
+                <img src="https://images.unsplash.com/photo-1572814601679-4ef8f7b5ebd1?q=80&w=1600&auto=format&fit=crop" class="w-full h-full object-cover" alt="Nail Art Concept" loading="lazy" />
+            </div>
+        </div>
+        <div class="w-full md:w-5/12 pt-8 md:pt-0">
+            <h2 class="font-serif text-5xl md:text-7xl text-charcoal mb-8 reveal-element">Nail Art</h2>
+            <p class="text-charcoal/60 font-light text-lg md:text-xl leading-relaxed mb-10 reveal-element delay-100">
+                Diseños artísticos y elegantes, personalizados a tu estilo.
+                <br><br>
+                <span class="italic text-sm text-dusty-rose">Nota de concepto: Las técnicas específicas se confirmarán directamente con el estudio.</span>
+            </p>
+            <div class="reveal-element delay-200">
+                <a href="https://wa.me/50686824929" target="_blank" class="inline-block border-b border-charcoal pb-1 text-sm uppercase tracking-widest hover:text-burgundy hover:border-burgundy transition-colors">
+                    Consultar Diseños
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- INSPIRACIÓN DE NAIL ART (GALLERY) -->
+    <section id="gallery" class="scroll-mt-32 md:scroll-mt-40 py-24 md:py-32 px-6 md:px-12 max-w-[1400px] mx-auto">
+        <div class="text-center mb-16 md:mb-24">
+            <h2 class="font-serif text-4xl md:text-6xl text-charcoal mb-6 reveal-element">Inspiración de Nail Art</h2>
+            <p class="text-charcoal/50 text-[10px] md:text-xs max-w-3xl mx-auto uppercase tracking-widest leading-loose reveal-element delay-100 px-4">
+                Imágenes ilustrativas utilizadas únicamente para este concepto de diseño. No representan necesariamente trabajos realizados por MonroeGirl Studio.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 lg:gap-10">
+            <!-- Image 1 -->
+            <div class="group relative overflow-hidden aspect-[4/5] reveal-element delay-100 cursor-pointer">
+                <img src="./images/gallery_floral_art_1790280724869.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Floral Nail Art" loading="lazy" />
+                <div class="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-500"></div>
+            </div>
+            <!-- Image 2 -->
+            <div class="group relative overflow-hidden aspect-square sm:aspect-[3/4] md:translate-y-8 reveal-element delay-200 cursor-pointer">
+                <img src="./images/gallery_abstract_art_1790280735479.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Abstract Colorful Nail Art" loading="lazy" />
+                <div class="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-500"></div>
+            </div>
+            <!-- Image 3 -->
+            <div class="group relative overflow-hidden aspect-[4/5] md:translate-y-16 reveal-element delay-300 cursor-pointer">
+                <img src="./images/gallery_line_art_1790280748539.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Minimalist Line Art" loading="lazy" />
+                <div class="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-500"></div>
+            </div>
+            <!-- Image 4 -->
+            <div class="group relative overflow-hidden aspect-square sm:aspect-[4/5] md:-translate-y-8 reveal-element delay-100 cursor-pointer">
+                <img src="./images/gallery_dark_art_1790280761615.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Dark Luxury Nail Art" loading="lazy" />
+                <div class="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-500"></div>
+            </div>
+            <!-- Image 5 -->
+            <div class="group relative overflow-hidden aspect-[3/4] reveal-element delay-200 cursor-pointer">
+                <img src="./images/gallery_pink_art_1790280773746.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Pink Creative Nail Art" loading="lazy" />
+                <div class="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-500"></div>
+            </div>
+            <!-- Image 6 -->
+            <div class="group relative overflow-hidden aspect-[4/5] md:translate-y-12 reveal-element delay-300 cursor-pointer">
+                <img src="./images/gallery_statement_art_1790280786241.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Statement Nail Art" loading="lazy" />
+                <div class="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-500"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- POLICIES SECTION (EDITORIAL LIST) -->
+    <section id="rules" class="scroll-mt-32 md:scroll-mt-40 py-32 px-6 md:px-12 bg-ivory">
+        <div class="max-w-[1200px] mx-auto">
+            <h2 class="font-serif text-4xl md:text-6xl text-charcoal mb-20 text-center reveal-element">Políticas del Estudio</h2>
+            
+            <div class="flex flex-col gap-12 md:gap-0">
+                <!-- Policy 1 -->
+                <div class="group flex flex-col md:flex-row items-baseline md:items-center py-10 md:py-16 md:border-t border-charcoal/10 reveal-element">
+                    <div class="text-4xl md:text-6xl font-serif text-blush font-light w-full md:w-1/4 mb-4 md:mb-0 transition-colors group-hover:text-burgundy">01</div>
+                    <div class="w-full md:w-3/4 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                        <h3 class="text-3xl md:text-5xl font-serif text-charcoal">Cita Previa</h3>
+                        <p class="text-charcoal/50 font-light max-w-sm">Atendemos exclusivamente mediante cita. Contacta por WhatsApp para agendar.</p>
+                    </div>
+                </div>
+
+                <!-- Policy 2 -->
+                <div class="group flex flex-col md:flex-row items-baseline md:items-center py-10 md:py-16 border-t border-charcoal/10 reveal-element delay-100">
+                    <div class="text-4xl md:text-6xl font-serif text-blush font-light w-full md:w-1/4 mb-4 md:mb-0 transition-colors group-hover:text-burgundy">02</div>
+                    <div class="w-full md:w-3/4 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                        <h3 class="text-3xl md:text-5xl font-serif text-charcoal">No Pedicure</h3>
+                        <p class="text-charcoal/50 font-light max-w-sm">Actualmente no ofrecemos servicios de pedicure en las instalaciones del estudio.</p>
+                    </div>
+                </div>
+
+                <!-- Policy 3 -->
+                <div class="group flex flex-col md:flex-row items-baseline md:items-center py-10 md:py-16 border-t border-charcoal/10 reveal-element delay-100">
+                    <div class="text-4xl md:text-6xl font-serif text-blush font-light w-full md:w-1/4 mb-4 md:mb-0 transition-colors group-hover:text-burgundy">03</div>
+                    <div class="w-full md:w-3/4 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                        <h3 class="text-3xl md:text-5xl font-serif text-charcoal">No Acrílico</h3>
+                        <p class="text-charcoal/50 font-light max-w-sm">Nuestras técnicas se enfocan en otros servicios; no trabajamos con acrílico.</p>
+                    </div>
+                </div>
+
+                <!-- Policy 4 -->
+                <div class="group flex flex-col md:flex-row items-baseline md:items-center py-10 md:py-16 border-t border-b border-charcoal/10 reveal-element delay-100">
+                    <div class="text-4xl md:text-6xl font-serif text-blush font-light w-full md:w-1/4 mb-4 md:mb-0 transition-colors group-hover:text-burgundy">04</div>
+                    <div class="w-full md:w-3/4 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                        <h3 class="text-3xl md:text-5xl font-serif text-charcoal">No Domicilio</h3>
+                        <p class="text-charcoal/50 font-light max-w-sm">Te esperamos en nuestro estudio en Santa Ana. No realizamos servicios a domicilio.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CINEMATIC CTA -->
+    <section id="contact" class="scroll-mt-32 md:scroll-mt-40 relative py-40 md:py-64 px-6 md:px-12 flex flex-col items-center justify-center text-center overflow-hidden">
+        <div class="absolute inset-0 z-0 bg-burgundy">
+            <img src="https://images.unsplash.com/photo-1596704017254-9b121068fb31?q=80&w=2000&auto=format&fit=crop" class="w-full h-full object-cover opacity-20 hero-img" alt="Luxury Texture" loading="lazy" />
+            <div class="absolute inset-0 bg-burgundy/60 mix-blend-multiply"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <h2 class="font-serif text-5xl md:text-8xl text-cream mb-8 reveal-element leading-tight">
+                Contacta al estudio
+            </h2>
+            <p class="text-lg md:text-2xl text-cream/70 font-light mb-16 max-w-2xl mx-auto reveal-element delay-100">
+                Contacta directamente por WhatsApp para obtener información y coordinar una cita.
+            </p>
+            
+            <div class="reveal-element delay-200">
+                <a href="https://wa.me/50686824929" target="_blank" class="inline-flex items-center gap-4 bg-cream text-burgundy px-10 py-5 rounded-full text-sm md:text-base uppercase tracking-widest font-semibold hover:bg-ivory hover:scale-105 transition-all shadow-[0_10px_40px_rgba(0,0,0,0.2)]">
+                    Chatear en WhatsApp
+                </a>
+            </div>
+            <div class="mt-8 reveal-element delay-300">
+                <p class="text-cream/50 text-sm tracking-widest uppercase">+506 8682 4929</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-charcoal py-16 px-6 md:px-12">
+        <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
+            <div>
+                <div class="text-2xl font-serif text-cream mb-2">MonroeGirl Studio</div>
+                <p class="text-cream/40 text-sm">Santa Ana, Costa Rica</p>
+            </div>
+            
+            <div class="max-w-md text-left md:text-center">
+                <p class="text-xs text-cream/30 italic leading-relaxed">
+                    Las imágenes utilizadas son ilustrativas y no representan necesariamente trabajos, personal o instalaciones reales de MonroeGirl Studio.
+                </p>
+            </div>
+            
+            <div class="text-left md:text-right">
+                <p class="text-[10px] uppercase tracking-[0.2em] text-blush font-semibold border border-blush/30 px-3 py-1 inline-block rounded-full">
+                    Concept Demo
+                </p>
+                <p class="text-cream/30 text-xs mt-3">&copy; 2026. Not the official website.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERSECTION OBSERVER SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            
+            if (!prefersReducedMotion) {
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0.15
+                };
+
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target); // Reveal only once
+                        }
+                    });
+                }, observerOptions);
+
+                document.querySelectorAll('.reveal-element, .image-reveal').forEach(el => {
+                    observer.observe(el);
+                });
+            } else {
+                // Ensure visibility if motion is disabled
+                document.querySelectorAll('.reveal-element, .image-reveal').forEach(el => {
+                    el.classList.add('visible');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
